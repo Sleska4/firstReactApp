@@ -2,39 +2,35 @@ import React, { Component } from "react";
 
 import "./post-list-item.css";
 
+type ContentType = {
+    label: string,
+    important?: boolean,
+    id: number,
+    like?: boolean
+  }
+
 type ItemPropsType = {
+    data: ContentType,
     label: string,
     onDelite: React.MouseEventHandler,
+    onToggleImportant: React.MouseEventHandler,
+    onToggleLiked: React.MouseEventHandler
 }
 type State = {
-    important: boolean,
-    like: boolean,
 }
 
 export default class PostListItem extends Component<ItemPropsType, State> {
     constructor(props: any) {
-        super(props);
+        super(props)
         this.state = {
-            important: false,
-            like: false
-        }     
+
+        }
     }
 
-    onImportant = ():void => {
-        this.setState(({important}) => ({
-            important: !important
-        }))
-    }
-
-    onLike = ():void => {
-        this.setState(({like}) => ({
-            like: !like
-        }))
-    }
 
     render() {
-        const {label} = this.props;
-        const {important, like} = this.state;
+        const {label, onToggleImportant, onToggleLiked} = this.props;
+        const {important, like} = this.props.data;
         let classLi: string = "app-list-item d-flex justify-content-between"
 
         classLi = important ? classLi + " important": classLi;
@@ -45,12 +41,12 @@ export default class PostListItem extends Component<ItemPropsType, State> {
             <li className={classLi} >
                 <span 
                     className="app-list-item-label"
-                    onClick={this.onLike}
+                    onClick={onToggleLiked}
                     >{label}</span>
                 <div className="d-flex justify-content-center aligen-item-center">
                     <button 
                         className="btn-star btn-sm"
-                        onClick={this.onImportant}
+                        onClick={onToggleImportant}
                     >
                         <i className="fa fa-star"></i>
                     </button>
@@ -63,7 +59,7 @@ export default class PostListItem extends Component<ItemPropsType, State> {
                     </button>
                     <i 
                         className="fa fa-heart"
-                        onClick={this.onLike}
+                        onClick={onToggleLiked}
                     ></i>
                 </div>
             </li>
